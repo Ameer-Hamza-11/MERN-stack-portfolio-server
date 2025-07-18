@@ -51,17 +51,20 @@ const getUserById = async (req, res, next) => {
 }
 
 
+// getAllProjects controller
 const getAllProjects = async (req, res, next) => {
     try {
-        const projects = await Projects.find()
-        if (!projects || projects.length === 0) {
-            return res.status(401).json({ message: 'No Projects Found' })
-        }
-        return res.status(200).json(projects)
+      const projects = await Projects.find().sort({ createdAt: -1 }); // ✅ latest first
+      if (!projects || projects.length === 0) {
+        return res.status(401).json({ message: 'No Projects Found' });
+      }
+      return res.status(200).json(projects);
     } catch (error) {
-        next(error)
+      next(error);
     }
-}
+  };
+  
+
 
 
 
