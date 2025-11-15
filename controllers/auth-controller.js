@@ -34,19 +34,12 @@ const login = async (req, res, next) => {
         if (!email || !password) {
             return res.status(400).json({ message: "All fields are required" });
         }
-        const user = await User.findOne({ email })
-        if (!user || !(await user.comparePassword(password))) {
-            return res.status(400).json({ message: 'Invalid email or password' });
-        }
-
-
-        const isMatchPassword = await user.comparePassword(password)
-        if (!isMatchPassword) {
-            return res.status(401).json({
-                message: 'Invalid email or password',
-            })
-
-        }
+        const user = await User.findOne({ email });
+        if (!user) return res.status(400).json({ message: "Invalid email or password" });
+        
+        const isMatchPassword = await user.comparePassword(password);
+        if (!isMatchPassword) return res.status(400).json({ message: "Invalid email or password" });
+        
         const token = await user.generateToken()
         return res.status(200).json({
             message: 'Login successfull',
