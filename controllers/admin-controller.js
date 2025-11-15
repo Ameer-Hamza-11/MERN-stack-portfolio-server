@@ -117,21 +117,30 @@ const updateUserById = async (req, res, next) => {
 const uploadProjects = async (req, res, next) => {
     try {
         const { heading, paragraph, link } = req.body;
-        const image = req.file.filename;
+
         if (!req.file) {
             return res.status(400).json({ message: "Image is required!" });
         }
 
-        const newProjects = new Projects({ image, heading, paragraph, link })
-        await newProjects.save();
+     
+        const imageUrl = req.file.path;
+
+        const newProject = new Projects({
+            image: imageUrl,
+            heading,
+            paragraph,
+            link
+        });
+
+        await newProject.save();
 
         res.status(201).json({ success: true, message: "Project Saved" });
 
     } catch (error) {
-        next(error)
-        res.status(500).json({ success: false, message: "Error", error: err.message });
+        next(error);
+        res.status(500).json({ success: false, message: "Error", error: error.message });
     }
-}
+};
 
 
 
