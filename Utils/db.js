@@ -1,5 +1,10 @@
 const mongoose = require('mongoose');
 
+if (!process.env.MONGODB_URI) {
+  console.error("MONGODB_URI not defined!");
+  throw new Error("Missing MongoDB URI");
+}
+
 let cached = global.mongoose;
 
 if (!cached) {

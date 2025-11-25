@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
 
     env: 
-      MONGO_URI: ${{ secrets.MONGO_URI }}
+      MONGODB_URI: ${{ secrets.MONGO_URI }}
 
     steps:
       - name: Get Code
@@ -23,3 +23,5 @@ jobs:
 
       - name: Start server
         run: node index.js
+        env:
+          MONGODB_URI: ${{ secrets.MONGO_URI }}
