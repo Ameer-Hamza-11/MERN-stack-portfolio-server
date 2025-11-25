@@ -1,10 +1,13 @@
-name: MERN Backend CI/CD Pipeline
+name: MERN Backend CI/CD
 
 on: push
 
 jobs:
   backend-pipeline:
     runs-on: ubuntu-latest
+
+    env: 
+      MONGO_URI: ${{ secrets.MONGO_URI }}
 
     steps:
       - name: Get Code
@@ -18,5 +21,5 @@ jobs:
       - name: Install packages
         run: npm install
 
-      - name: Start server (optional)
+      - name: Start server
         run: node index.js
