@@ -9,15 +9,16 @@ if (!cached) {
 const connectDB = async () => {
   if (cached.conn) return cached.conn;
 
-  if (!cached.promise) {
+ if (!cached.promise) {
     const opts = { bufferCommands: false };
-    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts).then((mongoose) => {
-      console.log('Database connection successfull');
-      return mongoose;
-    }).catch((error) => {
-      console.log('Database Connection failed', error);
-      throw error; // exit process is not suitable for serverless
-    });
+    cached.promise = mongoose.connect(process.env.MONGODB_URI, opts)
+      .then((mongoose) => {
+        console.log('Database connection successfull');
+        return mongoose;
+      }).catch((error) => {
+        console.log('Database Connection failed', error);
+        throw error; 
+      });
   }
   cached.conn = await cached.promise;
   return cached.conn;
